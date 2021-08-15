@@ -43,7 +43,7 @@ class TheSeoFramework
 
         // Plugin version.
         if (! defined('WPGRAPHQL_THE_SEO_FRAMEWORK_VERSION')) {
-            define('WPGRAPHQL_THE_SEO_FRAMEWORK_VERSION', '0.1.0');
+            define('WPGRAPHQL_THE_SEO_FRAMEWORK_VERSION', '0.1.1');
         }
 
         // Plugin Folder Path.
@@ -180,9 +180,9 @@ class TheSeoFramework
                     return the_seo_framework()->get_twitter_description($post_id);
                 },
             ],
-            'robots'               => [
-                'type' => 'SeoRobot'
-            ]
+//            'robots'               => [
+//                'type' => 'SeoRobot'
+//            ]
 //        'removeSiteTitle'      => [
 //            'meta_key'    => '_tsf_title_no_blogname',
 //            'type'        => 'Boolean',
