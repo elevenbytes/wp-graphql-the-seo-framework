@@ -75,16 +75,16 @@ class TheSeoFramework
                         'admin_notices',
                         function () {
                             ?>
-                          <div class="error notice">
-                            <p>
-                                <?php
-                                esc_html__(
-                                    'WPGraphQL must be installed and activated for "WPGraphQL CORS" to work',
-                                    'wp-graphql-cors'
-                                );
-                                ?>
-                            </p>
-                          </div>
+                            <div class="error notice">
+                                <p>
+                                    <?php
+                                    esc_html__(
+                                        'WPGraphQL must be installed and activated for "WPGraphQL CORS" to work',
+                                        'wp-graphql-cors'
+                                    );
+                                    ?>
+                                </p>
+                            </div>
                             <?php
                         }
                     );
@@ -106,35 +106,35 @@ class TheSeoFramework
         $post_types = \WPGraphQL::get_allowed_post_types();
 
         $meta_fields = [
-            'title'                => [
-                'meta_key'    => '_genesis_title',
-                'seo_cb'      => function ($post_id, $context) {
+            'title' => [
+                'meta_key' => '_genesis_title',
+                'seo_cb' => function ($post_id, $context) {
                     return the_seo_framework()->get_title($post_id);
                 },
-                'type'        => 'String',
+                'type' => 'String',
                 'description' => 'SEO title'
             ],
-            'description'          => [
-                'meta_key'    => '_genesis_description',
-                'seo_cb'      => function ($post_id, $context) {
+            'description' => [
+                'meta_key' => '_genesis_description',
+                'seo_cb' => function ($post_id, $context) {
                     return the_seo_framework()->get_description($post_id);
                 },
-                'type'        => 'String',
+                'type' => 'String',
                 'description' => 'SEO description'
             ],
-            'canonicalUrl'         => [
-                'meta_key'    => '_genesis_canonical_uri',
-                'seo_cb'      => function ($post_id, $context) {
+            'canonicalUrl' => [
+                'meta_key' => '_genesis_canonical_uri',
+                'seo_cb' => function ($post_id, $context) {
                     return the_seo_framework()->create_canonical_url([
-                        'id'               => $post_id,
+                        'id' => $post_id,
                         'get_custom_field' => true
                     ]);
                 },
-                'type'        => 'String',
+                'type' => 'String',
                 'description' => 'Canonical URL'
             ],
-            'socialImage'          => [
-                'type'   => 'MediaItem',
+            'socialImage' => [
+                'type' => 'MediaItem',
                 'seo_cb' => function ($post_id, $context) {
 // get_image_details returns an array, but we only need the most recent selected image
                     $images = the_seo_framework()->get_image_details($post_id, true);
@@ -142,120 +142,56 @@ class TheSeoFramework
                         return null;
                     }
 
-                    return DataSource::resolve_post_object((int) the_seo_framework()->get_image_details($post_id, true)[0]['id'], $context);
+                    return DataSource::resolve_post_object((int) the_seo_framework()->get_image_details($post_id,
+                        true)[0]['id'], $context);
                 },
             ],
-            'openGraphTitle'       => [
-                'type'        => 'String',
+            'openGraphTitle' => [
+                'type' => 'String',
                 'description' => 'Open Graph title',
-                'seo_cb'      => function ($post_id, $context) {
+                'seo_cb' => function ($post_id, $context) {
                     return the_seo_framework()->get_open_graph_title($post_id);
                 },
             ],
             'openGraphDescription' => [
-                'type'        => 'String',
+                'type' => 'String',
                 'description' => 'Open Graph description',
-                'seo_cb'      => function ($post_id, $context) {
+                'seo_cb' => function ($post_id, $context) {
                     return the_seo_framework()->get_open_graph_description($post_id);
                 },
             ],
-            'openGraphType'        => [
-                'type'        => 'String',
+            'openGraphType' => [
+                'type' => 'String',
                 'description' => "Open Graph type ('website', 'article', ...)",
-                'seo_cb'      => function ($post_id, $context) {
+                'seo_cb' => function ($post_id, $context) {
                     return the_seo_framework()->get_og_type($post_id);
                 }
             ],
-            'twitterTitle'         => [
-                'type'        => 'String',
+            'twitterTitle' => [
+                'type' => 'String',
                 'description' => 'Twitter title',
-                'seo_cb'      => function ($post_id, $context) {
+                'seo_cb' => function ($post_id, $context) {
                     return the_seo_framework()->get_twitter_title($post_id);
                 },
             ],
-            'twitterDescription'   => [
-                'type'        => 'String',
+            'twitterDescription' => [
+                'type' => 'String',
                 'description' => 'Twitter description',
-                'seo_cb'      => function ($post_id, $context) {
+                'seo_cb' => function ($post_id, $context) {
                     return the_seo_framework()->get_twitter_description($post_id);
                 },
             ],
-//            'robots'               => [
-//                'type' => 'SeoRobot'
-//            ]
-//        'removeSiteTitle'      => [
-//            'meta_key'    => '_tsf_title_no_blogname',
-//            'type'        => 'Boolean',
-//            'description' => 'If true, site title is/should not be added to the end of the SEO title'
-//        ],
-//        'redirectUrl'          => [
-//            'meta_key'    => 'redirect',
-//            'type'        => 'String',
-//            'description' => '301 redirect URL to force visitors to another page'
-//        ],
-//        'noIndex'              => [
-//            'meta_key'    => '_genesis_noindex',
-//            'type'        => 'Boolean',
-//            'description' => 'Whether search engines should index this page'
-//        ],
-//        'noFollow'             => [
-//            'meta_key'    => '_genesis_nofollow',
-//            'type'        => 'Boolean',
-//            'description' => 'Whether search engines should follow the links of this page'
-//        ],
-//        'noArchive'            => [
-//            'meta_key'    => '_genesis_noarchive',
-//            'type'        => 'Boolean',
-//            'description' => 'Whether search engines should show cached links of this page'
-//        ],
-//        'excludeLocalSearch'   => [
-//            'meta_key'    => 'exclude_local_search',
-//            'type'        => 'Boolean',
-//            'description' => 'Whether this page should be excluded from all search queries'
-//        ],
-//        'excludeFromArchive'   => [
-//            'meta_key'    => 'exclude_from_archive',
-//            'type'        => 'Boolean',
-//            'description' => 'Whether this page should be excluded from all archive queries'
-//        ],
         ];
 
         $setting_fields = [
             'separator' => [
-                'type'        => 'String',
+                'type' => 'String',
                 'description' => 'Title separator setting for seo titles',
-                'seo_cb'      => function ($post_id, $context) {
+                'seo_cb' => function ($post_id, $context) {
                     return the_seo_framework()->get_separator();
                 }
             ]
         ];
-
-//    $robot_fields = [
-//        'noIndex' => [
-//            'type' => 'String',
-//            'seo_meta_key' => 'noindex',
-//        ],
-//        'noArchive' => [
-//            'type' => 'String',
-//            'seo_meta_key' => 'noarchive',
-//        ],
-//        'noFollow' => [
-//            'type' => 'String',
-//            'seo_meta_key' => 'nofollow',
-//        ],
-//        'maxSnippet' => [
-//            'type' => 'String',
-//            'seo_meta_key' => 'max_snippet',
-//        ],
-//        'maxImagePreview' => [
-//            'type' => 'String',
-//            'seo_meta_key' => 'max_image_preview',
-//        ],
-//        'maxVideoPreview' => [
-//            'type' => 'String',
-//            'seo_meta_key' => 'max_video_preview',
-//        ]
-//    ];
 
         register_graphql_object_type('SEO', [
             'fields' => $meta_fields
@@ -265,19 +201,14 @@ class TheSeoFramework
             'fields' => $setting_fields
         ]);
 
-//    register_graphql_object_type('SeoRobot', [
-//        'fields' => $robot_fields
-//    ]);
-
         register_graphql_field('RootQuery', 'seoSettings', [
-            'type'        => 'SeoSettings',
+            'type' => 'SeoSettings',
             'description' => __('The SEO Framework settings', 'wp-graphql'),
-            'resolve'     => function ($root, $args, $context, $info) use ($setting_fields) {
-// Base array
+            'resolve' => function ($root, $args, $context, $info) use ($setting_fields) {
                 $seoSettings = array();
 
                 foreach ($setting_fields as $key => $setting_field) {
-                    $seoSettings[ $key ] = $setting_field['seo_cb'];
+                    $seoSettings[$key] = $setting_field['seo_cb'];
                 }
 
                 return ! empty($seoSettings) ? $seoSettings : null;
@@ -292,30 +223,47 @@ class TheSeoFramework
                 if (isset($post_type_object->graphql_single_name)) {
                     $single_name = $post_type_object->graphql_single_name;
                     register_graphql_field($single_name, 'seo', [
-                        'type'        => 'SEO',
-                        'description' => __('The SEO Framework data of the ' . $post_type_object->graphql_single_name, 'wp-graphql'),
-                        'resolve'     => function ($root, $args, $context, $info) use ($meta_fields, $single_name) {
+                        'type' => 'SEO',
+                        'description' => __('The SEO Framework data of the '.$post_type_object->graphql_single_name,
+                            'wp-graphql'),
+                        'resolve' => function ($root, $args, $context, $info) use ($meta_fields, $single_name) {
                             $post_id = $root->ID;
-// Base array
+
                             $seo = array();
 
-//                        $robot_settings = array();
-//                        $robots_meta_data = the_seo_framework()->robots_meta($post_id);
-
-// Mapping the fields to graphql conform field names
-//                        foreach ($robot_fields as $key => $robot_field) {
-//                            $robot_settings[$key] = $robots_meta_data[$robot_field['seo_meta_key']];
-//                        }
-//
                             foreach ($meta_fields as $key => $meta_field) {
                                 if (! empty($meta_field['seo_cb'])) {
-                                    $seo[ $key ] = $meta_field['seo_cb']($post_id, $context);
+                                    $seo[$key] = $meta_field['seo_cb']($post_id, $context);
                                 }
-//                            if (! empty($meta_field['seo_cb'])) {
-//                                $seo[ $key ] = $meta_field['seo_cb']($post_id, $context);
-//                            } else {
-//                                $seo[ $key ] = get_post_meta_or_return_null($post_id, $meta_field['meta_key'], ( $meta_field['type'] == 'Boolean' ));
-//                            }
+                            }
+
+                            return ! empty($seo) ? $seo : null;
+                        }
+                    ]);
+                }
+            }
+        }
+
+        if (! empty($taxonomies) && is_array($taxonomies)) {
+            foreach ($taxonomies as $taxonomy) {
+                $tax_object = get_taxonomy($taxonomy);
+                if (isset($tax_object->graphql_single_name)) {
+                    $single_name = $tax_object->graphql_single_name;
+                    register_graphql_field($single_name, 'seo', [
+                        'type' => 'SEO',
+                        'description' => __('The SEO Framework data of the '.$single_name, 'wp-graphql'),
+                        'resolve' => function ($root, $args, $context, $info) use ($meta_fields, $taxonomy) {
+                            $tsf_args = array(
+                                'id' => $root->term_id,
+                                'taxonomy' => $taxonomy
+                            );
+
+                            $seo = array();
+
+                            foreach ($meta_fields as $key => $meta_field) {
+                                if (! empty($meta_field['seo_cb'])) {
+                                    $seo[$key] = $meta_field['seo_cb']($tsf_args, $context);
+                                }
                             }
 
                             return ! empty($seo) ? $seo : null;
