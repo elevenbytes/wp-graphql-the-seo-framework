@@ -193,11 +193,13 @@ class TheSeoFramework
         ];
 
         register_graphql_object_type('SEO', [
-            'fields' => $meta_fields
+            'fields' => $meta_fields,
+            'eagerlyLoadType' => false,
         ]);
 
         register_graphql_object_type('SeoSettings', [
-            'fields' => $setting_fields
+            'fields' => $setting_fields,
+            'eagerlyLoadType' => false,
         ]);
 
         register_graphql_field('RootQuery', 'seoSettings', [
