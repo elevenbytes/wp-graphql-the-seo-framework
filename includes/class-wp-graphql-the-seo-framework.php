@@ -6,7 +6,6 @@ use WPGraphQL\Data\DataSource;
 
 class TheSeoFramework
 {
-
     /**
      * TaxQuery constructor.
      *
@@ -104,81 +103,81 @@ class TheSeoFramework
     public function add_the_seo_framework_fields()
     {
         $post_types = \WPGraphQL::get_allowed_post_types();
+        $taxonomies = \WPGraphQL::get_allowed_taxonomies();
 
         $meta_fields = [
             'title' => [
                 'meta_key' => '_genesis_title',
-                'seo_cb' => function ($post_id, $context) {
-                    return the_seo_framework()->get_title($post_id);
+                'seo_cb' => function ($args, $context) {
+                    return the_seo_framework()->get_title($args);
                 },
                 'type' => 'String',
                 'description' => 'SEO title'
             ],
             'description' => [
                 'meta_key' => '_genesis_description',
-                'seo_cb' => function ($post_id, $context) {
-                    return the_seo_framework()->get_description($post_id);
+                'seo_cb' => function ($args, $context) {
+                    return the_seo_framework()->get_description($args);
                 },
                 'type' => 'String',
                 'description' => 'SEO description'
             ],
             'canonicalUrl' => [
                 'meta_key' => '_genesis_canonical_uri',
-                'seo_cb' => function ($post_id, $context) {
-                    return the_seo_framework()->create_canonical_url([
-                        'id' => $post_id,
+                'seo_cb' => function ($args, $context) {
+                    return the_seo_framework()->create_canonical_url(array_merge($args, [
                         'get_custom_field' => true
-                    ]);
+                    ]));
                 },
                 'type' => 'String',
                 'description' => 'Canonical URL'
             ],
             'socialImage' => [
                 'type' => 'MediaItem',
-                'seo_cb' => function ($post_id, $context) {
-// get_image_details returns an array, but we only need the most recent selected image
-                    $images = the_seo_framework()->get_image_details($post_id, true);
+                'seo_cb' => function ($args, $context) {
+                    // get_image_details returns an array, but we only need the most recent selected image
+                    $images = the_seo_framework()->get_image_details($args, true);
                     if (empty($images)) {
                         return null;
                     }
 
-                    return DataSource::resolve_post_object((int) the_seo_framework()->get_image_details($post_id,
+                    return DataSource::resolve_post_object((int) the_seo_framework()->get_image_details($args,
                         true)[0]['id'], $context);
                 },
             ],
             'openGraphTitle' => [
                 'type' => 'String',
                 'description' => 'Open Graph title',
-                'seo_cb' => function ($post_id, $context) {
-                    return the_seo_framework()->get_open_graph_title($post_id);
+                'seo_cb' => function ($args, $context) {
+                    return the_seo_framework()->get_open_graph_title($args);
                 },
             ],
             'openGraphDescription' => [
                 'type' => 'String',
                 'description' => 'Open Graph description',
-                'seo_cb' => function ($post_id, $context) {
-                    return the_seo_framework()->get_open_graph_description($post_id);
+                'seo_cb' => function ($args, $context) {
+                    return the_seo_framework()->get_open_graph_description($args);
                 },
             ],
             'openGraphType' => [
                 'type' => 'String',
                 'description' => "Open Graph type ('website', 'article', ...)",
-                'seo_cb' => function ($post_id, $context) {
-                    return the_seo_framework()->get_og_type($post_id);
+                'seo_cb' => function ($args, $context) {
+                    return the_seo_framework()->get_og_type($args);
                 }
             ],
             'twitterTitle' => [
                 'type' => 'String',
                 'description' => 'Twitter title',
-                'seo_cb' => function ($post_id, $context) {
-                    return the_seo_framework()->get_twitter_title($post_id);
+                'seo_cb' => function ($args, $context) {
+                    return the_seo_framework()->get_twitter_title($args);
                 },
             ],
             'twitterDescription' => [
                 'type' => 'String',
                 'description' => 'Twitter description',
-                'seo_cb' => function ($post_id, $context) {
-                    return the_seo_framework()->get_twitter_description($post_id);
+                'seo_cb' => function ($args, $context) {
+                    return the_seo_framework()->get_twitter_description($args);
                 },
             ],
         ];
@@ -214,7 +213,6 @@ class TheSeoFramework
                 return ! empty($seoSettings) ? $seoSettings : null;
             }
         ]);
-
 
         if (! empty($post_types) && is_array($post_types)) {
             foreach ($post_types as $post_type) {
